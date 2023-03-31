@@ -1,6 +1,4 @@
 # MediaCustomTransport
 
-## Test Bed and Bug Reporting for MediaElement in Xamarin.Forms
-
-This repository demonstrates how to implement custrom controls for MediaElement while also pointing out current limiations and issues found in MediaElement.
+This repository serves as a test bed and bug demonstration location for MediaElement in Xamarin.Forms when implementing custom controls for MediaElement in Xamarin.Forms.
 
