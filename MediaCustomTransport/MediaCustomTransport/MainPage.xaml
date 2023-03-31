@@ -2,15 +2,21 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="http://xamarin.com/schemas/2020/toolkit"
-             x:Class="MediaCustomTransport.MainPage">
+             xmlns:iOsSpecific="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:mediaCustomTransport="clr-namespace:MediaCustomTransport;assembly=MediaCustomTransport"
+             x:Class="MediaCustomTransport.MainPage"
+             iOsSpecific:Page.UseSafeArea="True"
+             BackgroundColor="Black">
 
   <ContentPage.Resources>
     <ResourceDictionary>
       <views:TimeSpanToDoubleConverter x:Key="TimeSpanConverter"/>
+      <views:InvertedBoolConverter x:Key="BoolConverter" />
     </ResourceDictionary>
   </ContentPage.Resources>
 
   <Grid>
+    <!-- Player -->
     <views:MediaElement 
       x:Name="MediaPlayer"
       Source="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
@@ -19,6 +25,7 @@
       HorizontalOptions="Fill"
       ShowsPlaybackControls="False" />
 
+    <!-- Controls -->
     <StackLayout
       Orientation="Vertical"
       BackgroundColor="#99000000"
@@ -26,12 +33,13 @@
 
       <StackLayout
         Orientation="Horizontal"
-        VerticalOptions="End">
+        VerticalOptions="End"
+        HorizontalOptions="Fill">
         <Button
-          Text="Set Position"
-          WidthRequest="120"
+          Text="Set Position to 02:00 (mm:ss)"
+          WidthRequest="250"
           HeightRequest="40"
-          HorizontalOptions="Start"
+          HorizontalOptions="StartAndExpand"
           BackgroundColor="Transparent"
           TextColor="White"
           Clicked="OnSetPositionClicked"/>
@@ -49,30 +57,42 @@
         Orientation="Horizontal">
         <Button
           Clicked="OnPlayButtonClicked"
-          Text="S"
-          WidthRequest="40"
-          HeightRequest="40" />
+          Text="&#xF040C;"
+          FontFamily="materialdesignicons"
+          FontSize="18"
+          TextColor="White"
+          WidthRequest="60"
+          HeightRequest="60" 
+          IsVisible="{Binding IsPlaying, Source={RelativeSource AncestorType={x:Type mediaCustomTransport:MainPage}}, Converter={StaticResource BoolConverter}}"/>
         <Button
           Clicked="OnPauseButtonClicked"
-          Text="P"
-          WidthRequest="40"
-          HeightRequest="40" />
+          Text="&#xF03E5;"
+          FontFamily="materialdesignicons"
+          FontSize="18"
+          TextColor="White"
+          WidthRequest="60"
+          HeightRequest="60"
+          IsVisible="{Binding IsPlaying, Source={RelativeSource AncestorType={x:Type mediaCustomTransport:MainPage}}}"/>
         <Label 
           BindingContext="{x:Reference MediaPlayer}"
+          VerticalOptions="Center"
+          VerticalTextAlignment="Center"
           Text="{Binding Position, StringFormat='{0:mm\\:ss}'}"
           TextColor="White"/>
         <Slider
-          x:Name="SeekSlider"
           BindingContext="{x:Reference MediaPlayer}"
           HeightRequest="16"
           MinimumTrackColor="White"
           MaximumTrackColor="LightGray"
           ThumbColor="White"
           HorizontalOptions="FillAndExpand"
+          VerticalOptions="Center"
           Maximum="{Binding Duration, Converter={StaticResource TimeSpanConverter}}"
           Value="{Binding Position, Converter={StaticResource TimeSpanConverter}}" />
         <Label 
           BindingContext="{x:Reference MediaPlayer}"
+          VerticalOptions="Center"
+          VerticalTextAlignment="Center"
           Text="{Binding Duration, StringFormat='{0:mm\\:ss}'}"
           TextColor="White"/>
       </StackLayout>
