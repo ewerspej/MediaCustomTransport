@@ -15,8 +15,9 @@ This repository serves as a test bed and bug demonstration location for MediaEle
     - The `CurrentState` is not updated
     - The `Position` value is also not getting updated anymore (`PropertyChanged` event doesn't get raised)
     - Thus, when the `CurrentState` changes to `Paused` the video is still playing
-    - Only after calling `Play()` (e.g. via the "Play" button) the `Position` and `CurrentState` get updated again, so that the Slider moves again
-    - Setting the `Position` in the code-behind potentially breaks existing bindings, which might be an explanation as to why this happens
-    - This doesn't explain why these problems also occur when seeking via the bound Slider
-
+    - - When seeking to a specific position which hasn't been loaded yet, the `Position` jumps to the closest already buffered data point in the timeline, which shouldn't happend - instead, the video should stop playing until enough data has been loaded and then continue playing from the desired playback time
+  - Only after calling `Play()` (e.g. via the "Play" button) the `Position` and `CurrentState` get properly updated again
+  - Setting the `Position` in the code-behind potentially breaks existing bindings, which might be an explanation as to why this happens
+  - This doesn't explain why these problems also occur when seeking via the bound Slider
+  
 **Note:** None of these problems currently exist in the .NET MAUI version, as can be observed in the [sibling repository](https://github.com/ewerspej/MediaCustomTransportMaui).
