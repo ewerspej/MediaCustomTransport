@@ -19,5 +19,7 @@ This repository serves as a test bed and bug demonstration location for MediaEle
   - Only after calling `Play()` (e.g. via the "Play" button) the `Position` and `CurrentState` get properly updated again
   - Setting the `Position` in the code-behind potentially breaks existing bindings, which might be an explanation as to why this happens
   - This doesn't explain why these problems also occur when seeking via the bound Slider
+- Rotating the device into *Landscape* or *Portrait* does not automatically update the MediaElement's size on Android
+  - The view only updates when interacting with the video, e.g. by pausing and then playing the video again
   
 **Note:** None of these problems currently exist in the .NET MAUI version, as can be observed in the [sibling repository](https://github.com/ewerspej/MediaCustomTransportMaui).
