@@ -1,24 +1,83 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="http://xamarin.com/schemas/2020/toolkit"
              x:Class="MediaCustomTransport.MainPage">
 
-    <StackLayout>
-        <Frame BackgroundColor="#2196F3" Padding="24" CornerRadius="0">
-            <Label Text="Welcome to Xamarin.Forms!" HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
-        </Frame>
-        <Label Text="Start developing now" FontSize="Title" Padding="30,10,30,10"/>
-        <Label Text="Make changes to your XAML file and save to see your UI update in the running app with XAML Hot Reload. Give it a try!" FontSize="16" Padding="30,0,30,0"/>
-        <Label FontSize="16" Padding="30,24,30,0">
-            <Label.FormattedText>
-                <FormattedString>
-                    <FormattedString.Spans>
-                        <Span Text="Learn more at "/>
-                        <Span Text="https://aka.ms/xamarin-quickstart" FontAttributes="Bold"/>
-                    </FormattedString.Spans>
-                </FormattedString>
-            </Label.FormattedText>
-        </Label>
+  <ContentPage.Resources>
+    <ResourceDictionary>
+      <views:TimeSpanToDoubleConverter x:Key="TimeSpanConverter"/>
+    </ResourceDictionary>
+  </ContentPage.Resources>
+
+  <Grid>
+    <views:MediaElement 
+      x:Name="MediaPlayer"
+      Source="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+      AutoPlay="False"
+      IsLooping="False"
+      HorizontalOptions="Fill"
+      ShowsPlaybackControls="False" />
+
+    <StackLayout
+      Orientation="Vertical"
+      BackgroundColor="#99000000"
+      VerticalOptions="End">
+
+      <StackLayout
+        Orientation="Horizontal"
+        VerticalOptions="End">
+        <Button
+          Text="Set Position"
+          WidthRequest="120"
+          HeightRequest="40"
+          HorizontalOptions="Start"
+          BackgroundColor="Transparent"
+          TextColor="White"
+          Clicked="OnSetPositionClicked"/>
+        <Label 
+          BindingContext="{x:Reference MediaPlayer}"
+          Text="{Binding CurrentState}"
+          VerticalTextAlignment="Center"
+          VerticalOptions="Center"
+          HorizontalOptions="End"
+          TextColor="White" />
+      </StackLayout>
+
+      <StackLayout
+        VerticalOptions="End"
+        Orientation="Horizontal">
+        <Button
+          Clicked="OnPlayButtonClicked"
+          Text="S"
+          WidthRequest="40"
+          HeightRequest="40" />
+        <Button
+          Clicked="OnPauseButtonClicked"
+          Text="P"
+          WidthRequest="40"
+          HeightRequest="40" />
+        <Label 
+          BindingContext="{x:Reference MediaPlayer}"
+          Text="{Binding Position, StringFormat='{0:mm\\:ss}'}"
+          TextColor="White"/>
+        <Slider
+          x:Name="SeekSlider"
+          BindingContext="{x:Reference MediaPlayer}"
+          HeightRequest="16"
+          MinimumTrackColor="White"
+          MaximumTrackColor="LightGray"
+          ThumbColor="White"
+          HorizontalOptions="FillAndExpand"
+          Maximum="{Binding Duration, Converter={StaticResource TimeSpanConverter}}"
+          Value="{Binding Position, Converter={StaticResource TimeSpanConverter}}" />
+        <Label 
+          BindingContext="{x:Reference MediaPlayer}"
+          Text="{Binding Duration, StringFormat='{0:mm\\:ss}'}"
+          TextColor="White"/>
+      </StackLayout>
+
     </StackLayout>
+  </Grid>
 
 </ContentPage>

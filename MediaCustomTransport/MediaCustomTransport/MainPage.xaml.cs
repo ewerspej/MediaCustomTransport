@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace MediaCustomTransport
@@ -13,6 +8,21 @@ namespace MediaCustomTransport
         public MainPage()
         {
             InitializeComponent();
+        }
+
+        private void OnPlayButtonClicked(object sender, EventArgs e)
+        {
+            MediaPlayer.Play();
+        }
+
+        private void OnPauseButtonClicked(object sender, EventArgs e)
+        {
+            MediaPlayer.Pause();
+        }
+
+        private void OnSetPositionClicked(object sender, EventArgs e)
+        {
+            MediaPlayer.Position = TimeSpan.FromSeconds(120);
         }
     }
 }
